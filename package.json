@@ -1,0 +1,25 @@
+{
+  "name": "meetup-aggregator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Gary Homewood <gary@potatolondon.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "less": "^3.10.3",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-robot": "^1.0.0"
+  },
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
+}

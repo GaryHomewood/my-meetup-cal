@@ -1,0 +1,420 @@
+@import url('https://rsms.me/inter/inter.css');
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
+}
+
+@grey-100: #f5f5f5;
+@grey-200: #eeeeee;
+@grey-300: #e0e0e0;
+@grey-400: #bdbdbd;
+@grey-500: #9e9e9e;
+@grey-600: #757575;
+@grey-700: #616161;
+@grey-800: #424242;
+@grey-900: #212121;
+
+@bg: #4A4A4A;
+@bg-dark: rgba(66, 66, 66, 1);
+@has-events: red;
+@today: #29b6f6;
+
+@animation-speed: .2s;
+
+body {
+  background: @bg;
+  color: @grey-100;
+  font-size: 1rem;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: @grey-900;
+  padding: 16px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.loading {
+  margin-top: 200px;
+
+  p {
+    font-weight: 300;
+    margin-top: 48px;
+    text-align: center;
+  }
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+  border-bottom: 5px solid @grey-700;
+  border-left: 5px solid @grey-700;
+  border-radius: 50%;
+  border-right: 5px solid @grey-700;
+  border-top: 5px solid @grey-100;
+  height: 45px;
+  margin: auto;
+  width: 45px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
+}
+
+#calendar {
+  border-bottom: 1px solid @bg-dark;
+  margin: 0 auto;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  width: 386px;
+}
+
+.header {
+  background: @bg-dark;
+  height: 50px;
+  position:relative;
+  text-align: center;
+  width: 390px;
+  z-index: 100;
+
+  h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    line-height: 50px;
+    font-weight: 200;  
+  }
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    color: #0056b3;
+  }
+}
+
+.left-arrow, .right-arrow {
+  border-style: solid;
+  cursor: pointer;
+  height: 0px;
+  margin-top: -7.5px;
+  position: absolute;
+  top: 50%;
+  width: 0px;
+}
+
+.prev-link, .next-link {
+  cursor: pointer;
+  height: 48px;
+  position: absolute;
+  top: 0;
+  width: 48px;
+}
+
+.prev-link {
+  left: 0;
+}
+
+.next-link {
+  right: 0;
+}
+
+.prev-link:active,
+.next-link:active {
+  background-color: @grey-300;
+}
+
+.left-arrow {
+  border-width: 7.5px 10px 7.5px 0;
+  border-color: transparent @grey-400 transparent transparent;
+  left: 20px;
+}
+
+.right-arrow {
+  border-width: 7.5px 0 7.5px 10px;
+  border-color: transparent transparent transparent @grey-400;
+  right: 20px;
+}
+
+.month {
+  opacity: 0;
+
+  &.new {
+    animation: fadeIn .5s ease-out;
+    opacity: 1;
+  }
+
+  &.out.prev {
+    -webkit-animation: moveToBottomFadeMonth @animation-speed ease-in;
+    -moz-animation: moveToBottomFadeMonth @animation-speed ease-in;
+    animation: moveToBottomFadeMonth @animation-speed ease-in;
+    opacity: 1;
+  }
+
+  &.in.prev {
+    -webkit-animation: moveFromBottomFadeMonth @animation-speed ease-out;
+    -moz-animation: moveFromBottomFadeMonth @animation-speed ease-out;
+    animation: moveFromBottomFadeMonth @animation-speed ease-out;
+    opacity: 1;
+  }
+
+  &.out.next {
+    -webkit-animation: moveToTopFadeMonth @animation-speed ease-in;
+    -moz-animation: moveToTopFadeMonth @animation-speed ease-in;
+    animation: moveToTopFadeMonth @animation-speed ease-in;
+    opacity: 1;
+  }
+
+  &.in.next {
+    -webkit-animation: moveFromTopFadeMonth @animation-speed ease-out;
+    -moz-animation: moveFromTopFadeMonth @animation-speed ease-out;
+    animation: moveFromTopFadeMonth @animation-speed ease-out;
+    opacity: 1;
+  }
+}
+
+.day {
+  background: @bg;
+  border-right: 1px solid @bg-dark;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 0;
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  width: 54px;
+  z-index: 100;
+
+  &.today {
+    color: @today;
+  }
+
+  &.other {
+    color: rgba(255, 255, 255, .1);
+  }
+
+  .day-name {
+    color: rgba(255, 255, 255, .65);
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  
+  .day-number {
+    font-size: 24px;
+    letter-spacing: 1.5px;
+  }
+  
+  .day-events {
+    height: 12px;
+    line-height: 6px;
+    list-style: none;
+    margin-top: 3px;
+    overflow: hidden;
+    text-align: center;
+
+    span {
+      width: 98%;
+      height: 4px;
+      display: inline-block;
+      background: @has-events;
+    }
+  }
+}
+
+.week {
+  .day:first-child {
+    border-left: 1px solid @bg-dark;
+  }
+}
+
+// event details container
+.details {
+  background: @grey-100;
+  border-radius: 4px;
+  margin-top: 5px;
+  position: relative;
+
+  &.in {
+    -webkit-animation: moveFromTopFade .5s ease both;
+    -moz-animation: moveFromTopFade .5s ease both;
+    animation: moveFromTopFade .5s ease both;
+  }
+
+  &.out {
+    -webkit-animation: moveToTopFade .5s ease both;
+    -moz-animation: moveToTopFade .5s ease both;
+    animation: moveToTopFade .5s ease both;  
+  }
+}
+
+.arrow {
+  border-color: transparent transparent @grey-100 transparent;
+  border-style: solid;
+  border-width: 0 5px 5px 5px;
+  height: 0px;
+  left: 50%;
+  margin-left: -2px;
+  position: absolute;
+  top: -5px;
+  transition: all 0.7s ease;
+  width: 0px;
+}
+
+.events {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 12px 0;
+
+  &.in {
+    -webkit-animation: fadeIn @animation-speed ease both;
+    -moz-animation: fadeIn @animation-speed ease both;
+    animation: fadeIn @animation-speed ease both;  
+  }
+
+  &.out {
+    -webkit-animation: fadeOut @animation-speed ease both;
+    -moz-animation: fadeOut @animation-speed ease both;
+    animation: fadeOut @animation-speed ease both;  
+  }
+}
+
+.details.out .events {
+  -webkit-animation: fadeOutShrink @animation-speed ease both;
+  -moz-animation: fadeOutShink @animation-speed ease both;
+  animation: fadeOutShink @animation-speed ease both;
+}
+
+.event {
+  color: @grey-900;
+  display: flex;
+  font-weight: normal;
+  padding: 2px 8px;
+
+  .platform-logo {
+    margin-right: 8px;
+    max-width: 40px;
+    object-fit: contain;
+  }
+  
+  &-detail {
+    line-height: 1.2;
+  }
+
+  &-time {
+    display: block;
+    font-size: .8rem;
+    margin-top: 4px;
+  }
+
+  &:not(:last-of-type) img,
+  &:not(:last-of-type) div {
+    margin-bottom: 16px;
+  }
+}
+
+// animations
+@-webkit-keyframes moveFromTopFade {
+  from { opacity: .3; height:0px; margin-top:0px; -webkit-transform: translateY(-100%); }
+}
+@-moz-keyframes moveFromTopFade {
+  from { height:0px; margin-top:0px; -moz-transform: translateY(-100%); }
+}
+@keyframes moveFromTopFade {
+  from { height:0px; margin-top:0px; transform: translateY(-100%); }
+}
+
+@-webkit-keyframes moveToTopFade {
+  to { opacity: .3; height:0px; margin-top:0px; opacity: 0.3; -webkit-transform: translateY(-100%); }
+}
+@-moz-keyframes moveToTopFade {
+  to { height:0px; -moz-transform: translateY(-100%); }
+}
+@keyframes moveToTopFade {
+  to { height:0px; transform: translateY(-100%); }
+}
+
+@-webkit-keyframes moveToTopFadeMonth {
+  to { opacity: 0; -webkit-transform: translateY(-30%) scale(.95); }
+}
+@-moz-keyframes moveToTopFadeMonth {
+  to { opacity: 0; -moz-transform: translateY(-30%); }
+}
+@keyframes moveToTopFadeMonth {
+  to { opacity: 0; transform: translateY(-30%); }
+}
+
+@-webkit-keyframes moveFromTopFadeMonth {
+  from { opacity: 0; -webkit-transform: translateY(30%) scale(.95); }
+}
+@-moz-keyframes moveFromTopFadeMonth {
+  from { opacity: 0; -moz-transform: translateY(30%); }
+}
+@keyframes moveFromTopFadeMonth {
+  from { opacity: 0; transform: translateY(30%); }
+}
+
+@-webkit-keyframes moveToBottomFadeMonth {
+  to { opacity: 0; -webkit-transform: translateY(30%) scale(.95); }
+}
+@-moz-keyframes moveToBottomFadeMonth {
+  to { opacity: 0; -webkit-transform: translateY(30%); }
+}
+@keyframes moveToBottomFadeMonth {
+  to { opacity: 0; -webkit-transform: translateY(30%); }
+}
+
+@-webkit-keyframes moveFromBottomFadeMonth {
+  from { opacity: 0; -webkit-transform: translateY(-30%) scale(.95); }
+}
+@-moz-keyframes moveFromBottomFadeMonth {
+  from { opacity: 0; -webkit-transform: translateY(-30%); }
+}
+@keyframes moveFromBottomFadeMonth {
+  from { opacity: 0; -webkit-transform: translateY(-30%); }
+}
+
+@-webkit-keyframes fadeIn  {
+  from { opacity: 0; }
+}
+@-moz-keyframes fadeIn  {
+  from { opacity: 0; }
+}
+@keyframes fadeIn  {
+  from { opacity: 0; }
+}
+
+@-webkit-keyframes fadeOut  {
+  to { opacity: 0; }
+}
+@-moz-keyframes fadeOut  {
+  to { opacity: 0; }
+}
+@keyframes fadeOut  {
+  to { opacity: 0; }
+}
+
+@-webkit-keyframes fadeOutShink  {
+  to { opacity: 0; padding: 0px; height: 0px; }
+}
+@-moz-keyframes fadeOutShink  {
+  to { opacity: 0; padding: 0px; height: 0px; }
+}
+@keyframes fadeOutShink  {
+  to { opacity: 0; padding: 0px; height: 0px; }
+}
